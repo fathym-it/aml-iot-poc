@@ -55,8 +55,8 @@ az iot hub device-identity create --hub-name aml-iot-poc-hub --device-id TestIoT
 {
   "authentication": {
     "symmetricKey": {
-      "primaryKey": "nwGR7TzVXAbv+XTAPeziwJQPTLRkkUkqc9zamHLOVhk=",
-      "secondaryKey": "aLYZIP2mnpwkek28+n6lBPDVeIzeFFLa7amYA7Klcnc="
+      "primaryKey": [primaryKey],
+      "secondaryKey": [secondaryKey]
 	},
     "type": "sas",
     "x509Thumbprint": {
