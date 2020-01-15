@@ -57,13 +57,13 @@
           }
         },
         "modules": {
-          "AmlIoTPocTestModule": {
+          "SampleModule": {
             "version": "1.0",
             "type": "docker",
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "${MODULES.AmlIoTPocTestModule.debug}",
+              "image": "amliotpocacr.azurecr.io/aml-iot-poc-repository:1.0",
               "createOptions": {}
             }
           },
@@ -84,8 +84,8 @@
       "properties.desired": {
         "schemaVersion": "1.0",
         "routes": {
-          "AmlIoTPocTestModuleToIoTHub": "FROM /messages/modules/AmlIoTPocTestModule/outputs/* INTO $upstream",
-          "sensorToAmlIoTPocTestModule": "FROM /messages/modules/SimulatedTemperatureSensor/outputs/temperatureOutput INTO BrokeredEndpoint(\"/modules/AmlIoTPocTestModule/inputs/input1\")"
+          "SampleModuleToIoTHub": "FROM /messages/modules/SampleModule/outputs/* INTO $upstream",
+          "sensorToSampleModule": "FROM /messages/modules/SimulatedTemperatureSensor/outputs/temperatureOutput INTO BrokeredEndpoint(\"/modules/SampleModule/inputs/input1\")"
         },
         "storeAndForwardConfiguration": {
           "timeToLiveSecs": 7200

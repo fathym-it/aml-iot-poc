@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "AmlIoTPocTestModule Remote Debug (.NET Core)",
+      "name": "SampleModule Remote Debug (.NET Core)",
       "type": "coreclr",
       "request": "attach",
       "processId": "${command:pickRemoteProcess}",
@@ -11,7 +11,7 @@
         "pipeArgs": [
           "exec",
           "-i",
-          "AmlIoTPocTestModule",
+          "SampleModule",
           "sh",
           "-c"
         ],
@@ -20,17 +20,17 @@
         "quoteArgs": true
       },
       "sourceFileMap": {
-        "/app": "${workspaceFolder}/modules/AmlIoTPocTestModule"
+        "/app": "${workspaceFolder}/modules/SampleModule"
       },
       "justMyCode": true
     },
     {
-      "name": "AmlIoTPocTestModule Local Debug (.NET Core)",
+      "name": "SampleModule Local Debug (.NET Core)",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceRoot}/modules/AmlIoTPocTestModule/bin/Debug/netcoreapp2.1/AmlIoTPocTestModule.dll",
+      "program": "${workspaceRoot}/modules/SampleModule/bin/Debug/netcoreapp2.1/SampleModule.dll",
       "args": [],
-      "cwd": "${workspaceRoot}/modules/AmlIoTPocTestModule",
+      "cwd": "${workspaceRoot}/modules/SampleModule",
       "internalConsoleOptions": "openOnSessionStart",
       "stopAtEntry": false,
       "console": "internalConsole",
