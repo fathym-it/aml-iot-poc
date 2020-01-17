@@ -4,7 +4,7 @@
 ## Resource Group : develop
 
 
-**Operational Steps**
+**Operational Steps Part 1**
 Setting up resources and deploying a test module to an IoT Edge device on a Linux VM
 References: https://docs.microsoft.com/en-us/azure/iot-edge/quickstart-linux#deploy-a-module
 
@@ -276,3 +276,58 @@ Information: Successfully initialized module client of transport type [Amqp_Tcp_
         01/15/2020 08:49:46> Sending message: 2, Body: [{"machine":{"temperature":22.112142276071079,"pressure":1.126699752970123},"ambient":{"temperature":21.479175623496609,"humidity":24},"timeCreated":"2020-01-15T08:49:46.8283495Z"}]
 
 ```
+
+
+**Operational Steps Part 2**
+
+#### 0.  Prerequisites - Set up Docker 
+
+	Ugh. 
+
+
+#### 1.  Set up ACR and obtain access keys
+
+ACR Name: `AMLIotPocAcr`
+
+ACR Host: `amliotpocacr.azurecr.io`
+
+#### 2. Create a new module 
+
+```
+dotnet new -i Microsoft.Azure.IoT.Edge.Module
+```
+
+```
+Server: Docker Engine - Community
+ Engine:
+  Version:          19.03.5
+  API version:      1.40 (minimum version 1.12)
+  Go version:       go1.12.12
+  Git commit:       633a0ea
+  Built:            Wed Nov 13 07:29:19 2019
+  OS/Arch:          linux/amd64
+  Experimental:     false
+ containerd:
+  Version:          v1.2.10
+  GitCommit:        b34a5c8af56e510852c35414db4c1f4fa6172339
+ runc:
+  Version:          1.0.0-rc8+dev
+  GitCommit:        3e425f80a8c931f88e6d94a8c831b9d5aa481657
+ docker-init:
+  Version:          0.18.0
+  GitCommit:        fec3683
+```
+
+#### 3. Configuration
+
+
+azure-iot-edge.setDefaultPlatform: 
+Default platform is amd64 now.
+
+
+Add Sample code module
+
+`docker login -u AMLIotPocAcr -p [password] amliotpocacr.azurecr.io`
+ 
+ 
+
