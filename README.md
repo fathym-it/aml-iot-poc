@@ -10,12 +10,14 @@ References: https://docs.microsoft.com/en-us/azure/iot-edge/quickstart-linux#dep
 
 #### 1. Create iot hub - standard tier :
 
-```az iot hub create --resource-group 'develop' --name aml-iot-poc-hub --sku S1 --partition-count 2
+```
+az iot hub create --resource-group 'develop' --name aml-iot-poc-hub --sku S1 --partition-count 2
 ```
 
 #### 2. Create ACR AMLIotPoCAcr 
 
-```az storage account create \
+```
+az storage account create \
     --name AMLIotPoCAcr \
     --resource-group develop \
     --location 'West US 2, West Central US' \
@@ -27,7 +29,9 @@ export AZURE_STORAGE_KEY="<account-key>"
 ```
 
 #### 3. Create repo (aml-iot-poc)
-```git init
+
+```
+git init
 git add .gitignore
 git add README.md
 git commit
@@ -35,13 +39,16 @@ git remote add origin https://github.com/fathym-it/aml-iot-poc.git
 git push -u origin master
 ```
 
-4. Create blob storage (amliotpocstorage) Cool storage
+#### 4. Create blob storage (amliotpocstorage) Cool storage
 
 
-5. Create Linux VM (TestIoTEdgeVM)
+#### 5. Create Linux VM (TestIoTEdgeVM)
+```
 az vm image terms accept --urn microsoft_iot_edge:iot_edge_vm_ubuntu:ubuntu_1604_edgeruntimeonly:latest
 az vm create --resource-group develop --name TestIoTEdgeVM --image microsoft_iot_edge:iot_edge_vm_ubuntu:ubuntu_1604_edgeruntimeonly:latest --admin-username azureuser --generate-ssh-keys
+```
 
+```
 {
   "fqdns": "",
   "id": "/subscriptions/32271d36-d77b-485b-b7b2-0c990d2abf56/resourceGroups/develop/providers/Microsoft.Compute/virtualMachines/TestIoTEdgeVM",
@@ -51,8 +58,7 @@ az vm create --resource-group develop --name TestIoTEdgeVM --image microsoft_iot
   "resourceGroup": "develop",
   "zones": ""
 }
-
-Create ML workspace
+```
 
 6.  Create IoT Edge device identity
 az extension add --name azure-cli-iot-ext
