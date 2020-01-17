@@ -48,6 +48,8 @@ az vm image terms accept --urn microsoft_iot_edge:iot_edge_vm_ubuntu:ubuntu_1604
 az vm create --resource-group develop --name TestIoTEdgeVM --image microsoft_iot_edge:iot_edge_vm_ubuntu:ubuntu_1604_edgeruntimeonly:latest --admin-username azureuser --generate-ssh-keys
 ```
 
+Result: 
+
 ```
 {
   "fqdns": "",
@@ -60,10 +62,15 @@ az vm create --resource-group develop --name TestIoTEdgeVM --image microsoft_iot
 }
 ```
 
-6.  Create IoT Edge device identity
+#### 6.  Create IoT Edge device identity
+```
 az extension add --name azure-cli-iot-ext
 az iot hub device-identity create --hub-name aml-iot-poc-hub --device-id TestIoTEdgeDevice --edge-enabled
+```
 
+Result:
+
+```
 {
   "authentication": {
     "symmetricKey": {
@@ -90,14 +97,27 @@ az iot hub device-identity create --hub-name aml-iot-poc-hub --device-id TestIoT
   "statusReason": null,
   "statusUpdatedTime": "0001-01-01T00:00:00"
 }
+```
 
+```
 az iot hub device-identity show-connection-string --device-id TestIoTEdgeDevice --hub-name aml-iot-poc-hub
+```
+
+Result:
+
+```
 {
   "connectionString": "HostName=aml-iot-poc-hub.azure-devices.net;DeviceId=TestIoTEdgeDevice;SharedAccessKey=nwGR7TzVXAbv+XTAPeziwJQPTLRkkUkqc9zamHLOVhk="
 }
+```
 
+```
 az vm run-command invoke -g develop -n TestIoTEdgeVM --command-id RunShellScript --script "/etc/iotedge/configedge.sh 'HostName=aml-iot-poc-hub.azure-devices.net;DeviceId=TestIoTEdgeDevice;SharedAccessKey=nwGR7TzVXAbv+XTAPeziwJQPTLRkkUkqc9zamHLOVhk='"
+```
 
+Result:
+
+```
 {
   "value": [
     {
@@ -109,12 +129,26 @@ az vm run-command invoke -g develop -n TestIoTEdgeVM --command-id RunShellScript
     }
   ]
 }
+```
 
-7.  Verify device availability
 
+#### 7.  Verify device availability
+
+This must be done from Azure Cloud Powershell
+
+```
 ssh azureuser@40.65.115.8
+```
 
+Once in the shell:
+
+```
 sudo systemctl status iotedge
+```
+
+Result:
+
+```
 Jan 15 08:36:58 TestIoTEdgeVM iotedged[5697]: 2020-01-15T08:36:58Z [INFO] - [mgmt] - - - [2020-01-15 08:36:58.324717631 UTC] "GET /modules?api-ve
 Jan 15 08:37:03 TestIoTEdgeVM iotedged[5697]: 2020-01-15T08:37:03Z [INFO] - [mgmt] - - - [2020-01-15 08:37:03.325574172 UTC] "GET /modules?api-ve
 Jan 15 08:37:08 TestIoTEdgeVM iotedged[5697]: 2020-01-15T08:37:08Z [INFO] - [mgmt] - - - [2020-01-15 08:37:08.326306501 UTC] "GET /modules?api-ve
@@ -125,23 +159,32 @@ Jan 15 08:37:28 TestIoTEdgeVM iotedged[5697]: 2020-01-15T08:37:28Z [INFO] - [mgm
 Jan 15 08:37:33 TestIoTEdgeVM iotedged[5697]: 2020-01-15T08:37:33Z [INFO] - [mgmt] - - - [2020-01-15 08:37:33.342230865 UTC] "GET /modules?api-ve
 Jan 15 08:37:38 TestIoTEdgeVM iotedged[5697]: 2020-01-15T08:37:38Z [INFO] - [mgmt] - - - [2020-01-15 08:37:38.342870681 UTC] "GET /modules?api-ve
 Jan 15 08:37:43 TestIoTEdgeVM iotedged[5697]: 2020-01-15T08:37:43Z [INFO] - [mgmt] - - - [2020-01-15 08:37:43.347125537 UTC] "GET /modules?api-ve
+```
 
-
+```
 sudo iotedge list
+```
 
+Result:
+```
 NAME             STATUS           DESCRIPTION      CONFIG
 edgeAgent        running          Up 4 minutes     mcr.microsoft.com/azureiotedge-agent:1.0
+```
 
 
-8.  Deploy module - from Marketplace 
-( see https://docs.microsoft.com/en-us/azure/iot-edge/quickstart-linux#deploy-a-module)
+#### 8.  Deploy module - from Marketplace 
+
+(see https://docs.microsoft.com/en-us/azure/iot-edge/quickstart-linux#deploy-a-module)
 
 Verify routes for messaging
 
+```
 FROM /messages/* INTO $upstream
+```
 
 Module deployment output:
 
+```
 {
     "modulesContent": {
         "$edgeAgent": {
@@ -205,14 +248,23 @@ Module deployment output:
         }
     }
 }
+```
 
 Verify IoT edge device list again
 
+```
 sudo iotedge list
+```
 
-View data coming out of the device
-9.  sudo iotedge logs SimulatedTemperatureSensor -f
+9.  View data coming out of the device
 
+```
+sudo iotedge logs SimulatedTemperatureSensor -f
+```
+
+Result:
+
+```
 azureuser@TestIoTEdgeVM:~$ sudo iotedge logs SimulatedTemperatureSensor -f
 [2020-01-15 08:49:23 : Starting Module
 SimulatedTemperatureSensor Main() started.
@@ -223,4 +275,4 @@ Information: Successfully initialized module client of transport type [Amqp_Tcp_
         01/15/2020 08:49:41> Sending message: 1, Body: [{"machine":{"temperature":21.294738574905665,"pressure":1.0335778123310251},"ambient":{"temperature":21.048630642960141,"humidity":25},"timeCreated":"2020-01-15T08:49:41.6091891Z"}]
         01/15/2020 08:49:46> Sending message: 2, Body: [{"machine":{"temperature":22.112142276071079,"pressure":1.126699752970123},"ambient":{"temperature":21.479175623496609,"humidity":24},"timeCreated":"2020-01-15T08:49:46.8283495Z"}]
 
-
+```
