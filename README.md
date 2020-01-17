@@ -1,33 +1,39 @@
 # aml-iot-poc
-Proof of concept for AML and IoT Edge interoperability
 
-Subscription : Fathym R&D
-Resource Group : develop
+## Subscription : Fathym R&D
+## Resource Group : develop
 
 
-Operational Steps
+**Operational Steps**
+Setting up resources and deploying a test module to an IoT Edge device on a Linux VM
+References: https://docs.microsoft.com/en-us/azure/iot-edge/quickstart-linux#deploy-a-module
 
-1. Create iot hub - aml-iot-poc-hub - standard tier :
-az iot hub create --resource-group 'develop' --name aml-iot-poc-hub --sku S1 --partition-count 2
+#### 1. Create iot hub - standard tier :
 
-2. Create ACR AMLIotPoCAcr 
-az storage account create \
+```az iot hub create --resource-group 'develop' --name aml-iot-poc-hub --sku S1 --partition-count 2
+```
+
+#### 2. Create ACR AMLIotPoCAcr 
+
+```az storage account create \
     --name AMLIotPoCAcr \
     --resource-group develop \
     --location 'West US 2, West Central US' \
     --sku Standard_ZRS \
     --encryption blob \
 	
-export AZURE_STORAGE_ACCOUNT="<account-name>"
+export AZURE_STORAGE_ACCOUNT="<account-name>" \
 export AZURE_STORAGE_KEY="<account-key>"
+```
 
-3. Create repo (aml-iot-poc)
-git init
+#### 3. Create repo (aml-iot-poc)
+```git init
 git add .gitignore
 git add README.md
 git commit
 git remote add origin https://github.com/fathym-it/aml-iot-poc.git
 git push -u origin master
+```
 
 4. Create blob storage (amliotpocstorage) Cool storage
 
@@ -55,8 +61,8 @@ az iot hub device-identity create --hub-name aml-iot-poc-hub --device-id TestIoT
 {
   "authentication": {
     "symmetricKey": {
-      "primaryKey": [primaryKey],
-      "secondaryKey": [secondaryKey]
+      "primaryKey": "nwGR7TzVXAbv+XTAPeziwJQPTLRkkUkqc9zamHLOVhk=",
+      "secondaryKey": "aLYZIP2mnpwkek28+n6lBPDVeIzeFFLa7amYA7Klcnc="
 	},
     "type": "sas",
     "x509Thumbprint": {
@@ -210,4 +216,5 @@ Information: Trying to initialize module client using transport type [Amqp_Tcp_O
 Information: Successfully initialized module client of transport type [Amqp_Tcp_Only].
         01/15/2020 08:49:41> Sending message: 1, Body: [{"machine":{"temperature":21.294738574905665,"pressure":1.0335778123310251},"ambient":{"temperature":21.048630642960141,"humidity":25},"timeCreated":"2020-01-15T08:49:41.6091891Z"}]
         01/15/2020 08:49:46> Sending message: 2, Body: [{"machine":{"temperature":22.112142276071079,"pressure":1.126699752970123},"ambient":{"temperature":21.479175623496609,"humidity":24},"timeCreated":"2020-01-15T08:49:46.8283495Z"}]
+
 
