@@ -256,7 +256,7 @@ Verify IoT edge device list again
 sudo iotedge list
 ```
 
-9.  View data coming out of the device
+#### 9.  View data coming out of the device
 
 ```
 sudo iotedge logs SimulatedTemperatureSensor -f
